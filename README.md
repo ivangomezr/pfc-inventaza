@@ -1,89 +1,126 @@
-# 🏫 InventAza
-
-Aplicación móvil para **localizar y catalogar todos los objetos de un centro educativo**, navegando por ellos de forma jerárquica y exportando el inventario a PDF.
+# 🏫 InventAza — School Inventory App (Flutter + Dart)
 
 ![Flutter](https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=white)
 ![Dart](https://img.shields.io/badge/Dart-0175C2?logo=dart&logoColor=white)
 ![Android](https://img.shields.io/badge/Android-3DDC84?logo=android&logoColor=white)
 
+A mobile app to **locate and catalogue every item in a school**. Users browse the inventory hierarchically, from the school down to each object, and export any part of it to PDF.
+
+> 🎓 **Academic project.** Final project (*Proyecto de Fin de Ciclo*) of the **Higher National Diploma in Multiplatform Application Development** (*CFGS Desarrollo de Aplicaciones Multiplataforma, DAM*) at **IES Azarquiel**, 2023.
+
 ---
 
-## 📋 Descripción
+## 📸 Screenshots
 
-Proyecto de fin de ciclo del **CFGS de Desarrollo de Aplicaciones Multiplataforma (DAM)** en el **IES Azarquiel**, desarrollado en 2023.
+| Home | Piece contents | Collapsed header |
+|:---:|:---:|:---:|
+| <img src="screenshots/home.png" width="220"> | <img src="screenshots/piece-detail.png" width="220"> | <img src="screenshots/collapsed-header.png" width="220"> |
+| <sub>The school and its buildings as root pieces</sub> | <sub>Header photo, search bar and contained pieces</sub> | <sub>The header collapses on scroll</sub> |
 
-El objetivo es tener localizado cada objeto dentro del instituto. Todo es una **Pieza**: el propio centro, los bloques, las aulas y cualquier objeto que haya dentro de ellas. Cada pieza puede contener otras piezas, lo que permite recorrer el inventario de arriba a abajo:
+| Empty piece | Generate PDF | Generated PDF |
+|:---:|:---:|:---:|
+| <img src="screenshots/empty-piece.png" width="220"> | <img src="screenshots/generate-pdf.png" width="220"> | <img src="screenshots/pdf-result.png" width="220"> |
+| <sub>Warning and option to export it</sub> | <sub>Confirmation before generating</sub> | <sub>Photo, data and contents</sub> |
 
-```
-IES Azarquiel
-└── Bloque
-    └── Aula
-        ├── Armario
-        ├── Mesa
-        ├── Pizarra
-        └── ...
-```
+---
 
-Cada pieza se identifica con un código (por ejemplo `00-000000-T`), tiene su foto y muestra el **contenedor** en el que está.
+## ✨ Features
 
-## ✨ Funcionalidades
+- **Hierarchical navigation**: everything is a **piece** (*pieza*): the school, its buildings, the classrooms and every object inside them. Each piece can contain other pieces, so the inventory is browsed from top to bottom:
+  ```
+  IES Azarquiel
+  └── Building
+      └── Classroom
+          ├── Cupboard
+          ├── Desk
+          ├── Whiteboard
+          └── ...
+  ```
+- **Piece identification**: each piece has a code (for example `00-000000-T`), a photo and the **container** it is stored in.
+- **Search** within the list of pieces.
+- **Collapsible header** with the photo of the selected piece.
+- **Empty piece warning**: if a piece contains nothing else, the app says so and offers to generate its PDF directly.
+- **PDF export** of any piece, with its photo, its data (department, model, container, type and manufacturer) and the list of every piece it contains.
+- **Share the PDF** from the built-in viewer.
+- Custom splash screen with the school logo.
 
-- **Navegación jerárquica**: se empieza por el instituto y, con el botón **Detail**, se abre el contenido de cada pieza (bloques, aulas, objetos...), y así sucesivamente
-- **Búsqueda** dentro del listado de piezas
-- **Cabecera con foto** de la pieza seleccionada, que se recoge al desplazar la lista
-- **Aviso en piezas sin contenido**: si una pieza no contiene ninguna otra, la app lo indica y ofrece generar directamente su PDF
-- **Generación de PDF** de cualquier pieza, con su foto, sus datos (departamento, modelo, contenedor, tipo y fabricante) y el listado de todas las piezas que contiene
-- **Compartir el PDF** desde el propio visor de la app
+---
 
-## 🛠️ Stack técnico
+## 🧰 Tech Stack
 
-| Capa | Tecnología |
+| Layer | Technology |
 |---|---|
-| Framework | [Flutter](https://flutter.dev) |
-| Lenguaje | Dart |
-| Peticiones a la API | paquete [`http`](https://pub.dev/packages/http) |
-| Generación y visor de PDF | paquetes [`pdf`](https://pub.dev/packages/pdf) y [`printing`](https://pub.dev/packages/printing) |
-| Plataforma principal | Android |
-
-## 🗂️ Estructura
-
-```
-lib/
-├── models/
-│   └── Pieza.dart          # Modelo de datos de una pieza
-└── views/
-    ├── main.dart           # Punto de entrada y listado inicial de piezas
-    ├── piezaDetail.dart    # Contenido de una pieza: piezas hijas, búsqueda y botón de PDF
-    └── pdf.dart            # Visor, generación y envío del PDF
-```
-
-## 🚀 Puesta en marcha
-
-Requisitos: [Flutter SDK](https://docs.flutter.dev/get-started/install) instalado.
-
-```bash
-git clone https://github.com/ivangomezr/pfc-inventaza.git
-cd pfc-inventaza
-flutter pub get
-flutter run -t lib/views/main.dart
-```
-
-> ⚠️ **Nota sobre los datos**: la aplicación obtiene las piezas y sus fotos de una API del propio centro educativo, pensada para este proyecto. Al ser un servidor del instituto, su disponibilidad puede cambiar con el tiempo, y si deja de responder la app no cargará datos. Las capturas muestran su funcionamiento.
-
-## 📱 Capturas
-
-|                                                    Inicio                                                     |                                                  Contenido de una pieza                                                   |                                                      Piezas contenidas                                                       |
-|:-------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------:|
-| <img src="assets/screenshots/Screenshot1.png" width="200"><br><sub>Instituto y bloques como piezas raíz</sub> | <img src="assets/screenshots/Screenshot2.png" width="200"><br><sub>Foto en cabecera, buscador y piezas que contiene</sub> | <img src="assets/screenshots/Screenshot3.png" width="200"><br><sub>Cabecera recogida al desplazar (B001, B02 - Taller)</sub> |
-
-|                                            Pieza sin contenido                                            |                                              Generar PDF                                               |                                                  PDF generado                                                  |
-|:---------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------:|
-| <img src="assets/screenshots/Screenshot4.png" width="200"><br><sub>Aviso y opción de generar su PDF</sub> | <img src="assets/screenshots/Screenshot5.png" width="200"><br><sub>Confirmación antes de generar</sub> | <img src="assets/screenshots/Screenshot6.png" width="200"><br><sub>Resultado con foto, datos y contenido</sub> |
-
-## 📄 Contexto
-
-Proyecto académico publicado como muestra de mi trabajo durante el ciclo formativo, por lo que refleja el estado original del proyecto en 2023.
+| Framework | **Flutter** |
+| Language | **Dart** |
+| HTTP requests | [`http`](https://pub.dev/packages/http) |
+| PDF generation and viewer | [`pdf`](https://pub.dev/packages/pdf) and [`printing`](https://pub.dev/packages/printing) |
+| Splash screen | [`flutter_native_splash`](https://pub.dev/packages/flutter_native_splash) |
+| Main platform | Android |
 
 ---
 
-Desarrollado por [Iván Gómez](https://github.com/ivangomezr)
+## 🏗️ Architecture
+
+The app consumes a **REST API provided by the school**, which returns the pieces as JSON and serves their photos.
+
+| Screen | Responsibility |
+|---|---|
+| `main.dart` | Entry point. Loads the root pieces (the school and its buildings) and shows them in a searchable list. |
+| `piezaDetail.dart` | Shows the contents of a piece: collapsible `SliverAppBar` with its photo, search bar and child pieces. Opens the next level with **Detail**, or offers the PDF when the piece is empty. |
+| `pdf.dart` | Builds the PDF of a piece and its contents, shows it in a `PdfPreview` and shares it with `Printing.sharePdf`. |
+
+### Data model
+
+Each `Pieza` holds its own code and owner, its **parent piece** (`codPiezaPadre`), which is what builds the hierarchy, and descriptive fields: model, type and subtype, manufacturer, container, department and registration date.
+
+---
+
+## 📁 Project Structure
+
+```
+pfc-inventaza/
+├── lib/
+│   ├── models/
+│   │   └── Pieza.dart          # Piece data model
+│   └── views/
+│       ├── main.dart           # Entry point and root pieces list
+│       ├── piezaDetail.dart    # Piece contents, search and PDF button
+│       └── pdf.dart            # PDF generation, viewer and sharing
+├── assets/                     # School logo (splash screen)
+├── android/ · ios/ · web/ · windows/
+├── screenshots/
+└── pubspec.yaml
+```
+
+---
+
+## 🚀 Running Locally
+
+### Prerequisites
+- [Flutter SDK](https://docs.flutter.dev/get-started/install)
+- An emulator or an Android device
+
+### Steps
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/ivangomezr/pfc-inventaza.git
+   cd pfc-inventaza
+   ```
+2. Install the dependencies:
+   ```bash
+   flutter pub get
+   ```
+3. Run the app:
+   ```bash
+   flutter run -t lib/views/main.dart
+   ```
+
+> ⚠️ **About the data:** the pieces and their photos come from an API hosted by the school and built for this project. Its availability may change over time; if it stops responding, the app will not load any data. The screenshots show the app working.
+
+---
+
+## 🙋 Author
+
+**Iván Gómez** — [@ivangomezr](https://github.com/ivangomezr)
+
+Developed as the final project of the DAM programme at IES Azarquiel. This repository reflects the original state of the project in 2023.
